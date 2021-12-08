@@ -2,33 +2,14 @@ cabal-version:      2.4
 name:               aoc2021
 version:            0.1.0.0
 
--- A short (one-line) description of the package.
--- synopsis:
-
--- A longer description of the package.
--- description:
-
--- A URL where users can report bugs.
--- bug-reports:
-
--- The license under which the package is released.
--- license:
 author:             heitor
 maintainer:         heitor@blubaron.local
 
--- A copyright notice.
--- copyright:
--- category:
 extra-source-files: CHANGELOG.md
 
 executable aoc2021
     main-is:          Main.hs
-
-    -- Modules included in this executable, other than Main.
     other-modules:    Day1, Day2, Day3, Day4, Day5, Day6
-
-    -- LANGUAGE extensions used by modules in this package.
-    -- other-extensions:
-    build-depends:    base ^>=4.14.3.0, containers ^>=0.6.5.1, parallel ^>=3.2.2.0, dequeue ^>=0.1.12
+    build-depends:    base, containers, dequeue
     hs-source-dirs:   app
     default-language: Haskell2010
