@@ -9,6 +9,7 @@ import qualified Day4
 import qualified Day5
 import qualified Day6
 import qualified Day7
+import qualified Day8
 
 
 runDay :: [String] -> IO ()
@@ -19,6 +20,7 @@ runDay ["4"] = Day4.main
 runDay ["5"] = Day5.main
 runDay ["6"] = Day6.main
 runDay ["7"] = Day7.main
+runDay ["8"] = Day8.main
 runDay []    = putStrLn "Tell me a day to run."
 runDay _     = putStrLn "I've no idea what you're talking about."
 
