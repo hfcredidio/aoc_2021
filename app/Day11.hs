@@ -25,7 +25,7 @@ neighbors g (r, c) = filter (inGrid g) ns
 
 increment :: Grid -> Position -> Grid
 increment g (r, c) | M.getElem r c g == 0 = g
-                   | otherwise            = M.setElem ((M.getElem r c g) + 1) (r, c) g
+                   | otherwise            = M.setElem (M.getElem r c g + 1) (r, c) g
 
 
 flash :: D.BankersDequeue Position -> Grid -> (Grid, Int)
@@ -35,7 +35,7 @@ flash queue g = case D.popFront queue of
         where ns = neighbors g (r, c)
               g' = foldl increment g ns
               g'' = M.setElem 0 (r, c) g'
-              newQueue = foldl D.pushBack popped [(r, c) | (r, c) <- ns, (M.getElem r c g'') == 10]
+              newQueue = foldl D.pushBack popped [(r, c) | (r, c) <- ns, M.getElem r c g'' == 10]
               (g''', count) = flash newQueue g''
 
 
@@ -55,4 +55,4 @@ main = do
     grid <- parseGrid . lines <$!> readFile "data/day11.txt"
     print $ sum $ take 101 $ map snd $ iterate (step . fst) (grid, 0)
     let gridSize = M.ncols grid * M.nrows grid
-    print $ findIndex (\n -> n == gridSize) $ map snd $ iterate (step . fst) (grid, 0)
+    print $ elemIndex gridSize $ map snd $ iterate (step . fst) (grid, 0)
