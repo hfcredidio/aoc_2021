@@ -6,7 +6,7 @@ import Data.List
 
 
 parseLines :: String -> [Int]
-parseLines = (map read) . lines
+parseLines = map read . lines
 
 
 countIncreases :: [Int] -> Int
@@ -15,7 +15,7 @@ countIncreases = length . filter (>0) . diffs
 
 
 rollingWindow :: Int -> [a] -> [[a]]
-rollingWindow n = map (take n) . (takeWhile bigEnough) . tails 
+rollingWindow n = map (take n) . takeWhile bigEnough . tails 
     where bigEnough x = length x >= n
 
 
@@ -24,8 +24,8 @@ main = do
     numbers <- parseLines <$!> readFile "data/day1.txt"
 
     putStr "Number of increases: "
-    putStrLn $ show $ countIncreases numbers
+    print $ countIncreases numbers
 
     putStr "Number of increases after a rolling sum: "
     let windowSum = map sum $ rollingWindow 3 numbers
-    putStrLn $ show $ countIncreases windowSum
+    print $ countIncreases windowSum

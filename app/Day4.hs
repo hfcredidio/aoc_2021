@@ -28,7 +28,7 @@ markRow :: Int -> [Entry] -> [Entry]
 markRow value row = let (h, t) = span (\e -> value /= entryValue e) row in
     case t of
         [] -> h
-        otherwise -> h ++ markEntry (head t):tail t
+        _  -> h ++ markEntry (head t):tail t
 
 markBoard :: Int -> Board -> Board
 markBoard value b = map (markRow value) (boardRows b)
@@ -38,8 +38,8 @@ findWinner [] boards = Left "No calls left and no winners????"
 findWinner (call:cs) boards = let markedBoards = map (markBoard call) boards in
     case filter boardHasWon markedBoards of
         []        -> findWinner cs markedBoards
-        [winner]  -> Right $ (call, winner)
-        otherwise -> Left "Too many winners????"
+        [winner]  -> Right (call, winner)
+        _         -> Left "Too many winners????"
 
 findLastWinner :: [Int] -> [Board] -> Either String (Int, Board)
 findLastWinner [] [] = Left "What a weird situation."
@@ -71,7 +71,7 @@ parseBoards ss = parseBoard h:parseBoards t
 main :: IO ()
 main = do
     inputs <- lines <$!> readFile "data/day4.txt"
-    let calls  = parseList ',' (inputs !! 0)
+    let calls  = parseList ',' (head inputs)
     let boards = parseBoards (drop 2 inputs)
-    putStrLn $ show $ uncurry boardScore <$> findWinner calls boards
-    putStrLn $ show $ uncurry boardScore <$> findLastWinner calls boards
+    print $ uncurry boardScore <$> findWinner calls boards
+    print $ uncurry boardScore <$> findLastWinner calls boards

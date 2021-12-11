@@ -23,7 +23,7 @@ parseLine s = case splitLine s of
 
 
 parseLines :: String -> Either String [Action]
-parseLines = sequence . (map parseLine) . lines
+parseLines = mapM parseLine . lines
 
 
 class Submarine s where
@@ -58,8 +58,8 @@ main = do
 
     let shittySub = foldl moveSubmarine (ShittySubmarine 0 0) <$> actions
     putStr "Shitty submarine: "
-    putStrLn $ show $ result <$> shittySub
+    print $ result <$> shittySub
 
     let betterSub = foldl moveSubmarine (AdequateSubmarine 0 0 0) <$> actions
     putStr "Better submarine: "
-    putStrLn $ show $ result <$> betterSub
+    print $ result <$> betterSub
