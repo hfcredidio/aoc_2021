@@ -3,7 +3,7 @@
 module Day17 where
 
 import Control.Monad
-import Data.Maybe (catMaybes)
+import Data.Maybe (mapMaybe)
 import Data.Char (isDigit)
 
 type Point = (Int, Int)
@@ -49,10 +49,10 @@ velBounds (Box (a, b) (c, d)) = ((minVx, maxVx), (minVy, maxVy))
 
 
 searchMaxHeights :: Box -> [(Point, State)]
-searchMaxHeights box = catMaybes $ map lastState testVels
+searchMaxHeights box = mapMaybe lastState testVels
     where lastState initVel = (initVel,) <$> lastStateInBox (State (0, 0) initVel 0) box
           ((minVx, maxVx), (minVy, maxVy)) = velBounds box
-          testVels = pure (,) <*> [minVx..maxVx] <*> [minVy..maxVy]
+          testVels = (,) <$> [minVx..maxVx] <*> [minVy..maxVy]
 
 
 
@@ -75,5 +75,5 @@ parseBox s = case getNumbers s of
 main :: IO ()
 main = do
     box <- parseBox <$!> readFile "data/day17.txt"
-    print $ maximum <$> map (maxHeight . snd) <$> searchMaxHeights <$> box
-    print $ length <$> searchMaxHeights <$> box
+    print $ maximum . map (maxHeight . snd) . searchMaxHeights <$> box
+    print $ length . searchMaxHeights <$> box
